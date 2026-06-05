@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>المرجع الشامل: القانون التجاري المصري - أسئلة موضوعية + مقالية</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f0f4f8;
+      font-family: 'Segoe UI', 'Tahoma', 'Cairo', system-ui, -apple-system, sans-serif;
+      padding: 2rem 1rem;
+      color: #1e293b;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* header */
+    .exam-header {
+      background: linear-gradient(135deg, #0f2b3d, #1a4a6f);
+      color: white;
+      padding: 1.8rem;
+      border-radius: 32px;
+      margin-bottom: 2rem;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .exam-header h1 {
+      font-size: 1.9rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .exam-header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* tab system */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #cbd5e1;
+      padding-bottom: 6px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 10px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #334155;
+      font-family: inherit;
+    }
+
+    .tab-btn.active {
+      background: #1a4a6f;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .tab-btn:not(.active):hover {
+      background: #e2e8f0;
+    }
+
+    .question-panel {
+      display: none;
+      animation: fade 0.25s ease;
+    }
+
+    .question-panel.active-panel {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    /* cards */
+    .question-card, .essay-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      border: 1px solid #e2edf2;
+      transition: 0.2s;
+    }
+
+    .question-text {
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      background: #f9fbfd;
+      padding: 0.8rem 1rem;
+      border-radius: 20px;
+      border-right: 4px solid #1a4a6f;
+      margin-bottom: 0.75rem;
+    }
+
+    .essay-answer {
+      background: #fefce8;
+      border-right: 4px solid #eab308;
+      padding: 1rem;
+      border-radius: 20px;
+      margin-top: 12px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #2d3e50;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: #1a4a6f;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      margin-top: 12px;
+      padding: 6px 12px;
+      border-radius: 30px;
+      transition: 0.1s;
+    }
+    .toggle-btn:hover {
+      background: #eef2ff;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 6px 12px;
+      border-radius: 60px;
+      background: #fefefe;
+      cursor: pointer;
+    }
+    .option:hover { background: #eef2ff; }
+
+    input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #1a4a6f;
+    }
+
+    .truefalse-group { display: flex; gap: 20px; align-items: center; }
+    .feedback {
+      margin-top: 12px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+    .feedback.correct { background: #dcfce7; color: #166534; border-right: 3px solid #22c55e; }
+    .feedback.wrong { background: #ffe4e2; color: #991b1b; border-right: 3px solid #ef4444; }
+
+    .submit-area {
+      margin: 24px 0 20px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-submit {
+      background: linear-gradient(95deg, #1e4a76, #0f2f4a);
+      border: none;
+      padding: 12px 32px;
+      border-radius: 40px;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .reset-btn { background: #475569; }
+    .result-banner {
+      background: #e6f0fa;
+      padding: 14px 24px;
+      border-radius: 60px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .live-counter {
+      background: #f1f5f9;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-right: 12px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #5b6e8c;
+    }
+    @media (max-width: 700px) {
+      .question-card, .essay-card { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="exam-header">
+    <h1>📚 المرجع النهائي: القانون التجاري المصري</h1>
+    <p>أسئلة موضوعية (صح/خطأ + اختيار من متعدد) + جميع الأسئلة المقالية مع الإجابات النموذجية الكاملة</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tf">📝 صح & خطأ (62)</button>
+    <button class="tab-btn" data-tab="mcq">🎯 اختيار من متعدد (13)</button>
+    <button class="tab-btn" data-tab="essay">📖 أسئلة مقالية شاملة (23 سؤالاً)</button>
+  </div>
+
+  <!-- صح / خطأ -->
+  <div id="tf-panel" class="question-panel active-panel">
+    <div id="tf-questions-container"></div>
+    <div class="submit-area"><button class="btn-submit reset-btn" id="resetTFBtn">🔄 إعادة تعيين</button></div>
+    <div id="tf-result" class="result-banner"></div>
+  </div>
+
+  <!-- اختيار من متعدد -->
+  <div id="mcq-panel" class="question-panel">
+    <div id="mcq-questions-container"></div>
+    <div class="submit-area"><button class="btn-submit reset-btn" id="resetMCQBtn">🔄 إعادة تعيين</button></div>
+    <div id="mcq-result" class="result-banner"></div>
+  </div>
+
+  <!-- الأسئلة المقالية (23 سؤالاً من ) -->
+  <div id="essay-panel" class="question-panel">
+    <div id="essay-questions-container"></div>
+  </div>
+
+  <footer>✨ التصحيح التلقائي للأسئلة الموضوعية فوري. الأسئلة المقالية تحتوي على إجابات نموذجية  .</footer>
+</div>
+
+<script>
+  // -------------------- 1. بيانات صح/خطأ (62 سؤالاً) --------------------
+  const tfQuestions = [
+    { text: "العمل التجاري هو العمل الذي ينطوي على تداول الثروات ويهدف إلى تحقيق الربح ويتم في صورة مشروع.", answer: true },
+    { text: "تساعد الدفاتر التجارية في معرفة المركز المالي الحقيقي للتاجر.", answer: true },
+    { text: "من شروط الأعمال التجارية بالتبعية أن يكون العمل متعلق بحاجات تجارة التاجر.", answer: true },
+    { text: "تسري أحكام القانون التجاري على الأعمال التجارية وعلى من يثبت له صفة التاجر.", answer: true },
+    { text: "الشخص الذي يعلن في الصحف كذباً أنه تاجر لا يكتسب صفة التاجر.", answer: false },
+    { text: "يجب على الشركة التي يكون غرضها القيام بالأعمال التجارية مسك الدفاتر التجارية.", answer: true },
+    { text: "يعفى الشخص غير المتعلم من مسك الدفاتر التجارية.", answer: false },
+    { text: "من شروط الأعمال التجارية بالتبعية توفر صفة التاجر.", answer: true },
+    { text: "احتراف العمل التجاري لا يتوقف على حجم رأس المال أو وجود محل تجاري.", answer: true },
+    { text: "من آثار البطلان المطلق انهيار عقد الشركة.", answer: false },
+    { text: "القانون التجاري قانون غير طائفي.", answer: false },
+    { text: "يجوز كتابة عبارة (وشركاه) في اسم شركة المساهمة.", answer: false },
+    { text: "موطن الشركة هو الذي يحدد جنسية الشركة.", answer: true },
+    { text: "تستمر الشخصية المعنوية للشركة أثناء فترة التصفية بالقدر المحدود لإنهائها.", answer: true },
+    { text: "أهلية الشركة تحدد بالغرض الذي تأسست من أجله.", answer: true },
+    { text: "شركة المساهمة لا تكتسب الشخصية الاعتبارية إلا من تاريخ قيدها في السجل التجاري.", answer: true },
+    { text: "جنسية الشركة تساعد في معرفة الشركات التي تستفيد من الإعفاءات الضريبية.", answer: true },
+    { text: "لا يجوز رفع دعاوى على الشركة بعد مرور عشر سنوات من تاريخ شهر التصفية.", answer: true },
+    { text: "من الأركان الموضوعية لعقد الشركة الشهر.", answer: false },
+    { text: "معيار التداول يعني أن العمل يُعد تجاريًا عندما يتم ممارسته في شكل مشروع.", answer: false },
+    { text: "نادى بمعيار المقاولة الفقه تالير.", answer: false },
+    { text: "يجوز إثبات الأعمال التجارية بكافة طرق الإثبات.", answer: true },
+    { text: "عقود بيع السفينة لا يجوز إثباتها إلا بالكتابة.", answer: true },
+    { text: "يجوز أن يكون شكل الإعذار في القانون التجاري بإرسال الدائن خطاب عادي إلى مدينة.", answer: true },
+    { text: "من شروط الأعمال التجارية توفر صفة التاجر.", answer: true },
+    { text: "الأهلية التجارية تعرف على أنها صلاحية الشخص لاحتراف الأعمال التجارية.", answer: true },
+    { text: "من التزامات التاجر شهر النظام المالي للزواج.", answer: true },
+    { text: "المضاربة تعني تحقيق الربح من فرق الأسعار.", answer: true },
+    { text: "معيار المضاربة يصلح لتميز العمل التجاري عن العمل المدني.", answer: true },
+    { text: "العمل التجاري بالتبعية هو الذي يعتبر تجارياً لأحد طرفيه ومدنياً للآخر.", answer: false },
+    { text: "من شروط الاحتراف أن يرد الاحتراف على أعمال تجارية أصلية.", answer: true },
+    { text: "شركة المساهمة شركة تقوم على الاعتبار الشخصي.", answer: false },
+    { text: "يجوز إثبات الأعمال التجارية بكافة طرق الإثبات.", answer: false },
+    { text: "تستخدم الدفاتر التجارية في الإثبات.", answer: true },
+    { text: "القانون التجاري قانون طائفي.", answer: true },
+    { text: "جميع الشركات وفقاً للقانون المصري تكتسب الشخصية المعنوية.", answer: true },
+    { text: "شراء المنقول من أجل تأجيره فقط وليس بيعه يُعد عملاً تجارياً.", answer: false },
+    { text: "لا تلتزم الشركات المدنية بمسك الدفاتر التجارية.", answer: true },
+    { text: "للشركة ذات المسؤولية المحدودة اسم مشتق من غرضها أو اسم أحد الشركاء.", answer: true },
+    { text: "وجود شرط الأسد في عقد الشركة لا يجعله باطلاً.", answer: false },
+    { text: "تقوم الزوجة بتقديم أموالها للزوج في نظام اختلاط الأموال.", answer: false },
+    { text: "دفتر الجرد هو الذي تقيد فيه جميع العمليات المالية وسحوبات التاجر.", answer: false },
+    { text: "من الدفاتر الإلزامية دفتر الجرد.", answer: true },
+    { text: "من الدفاتر غير الإلزامية دفتر التسويدة.", answer: true },
+    { text: "السجل التجاري له وظيفة إعلامية واقتصادية.", answer: true },
+    { text: "اعتزال التاجر تجارته لا يؤدي إلى شطب قيده.", answer: false },
+    { text: "لا يؤدي القيد في السجل التجاري إلى إكساب صفة التاجر.", answer: false },
+    { text: "القانون التجاري قانون يهتم بجميع طوائف المجتمع.", answer: false },
+    { text: "القانون التجاري لا ينظم سوى الأعمال التجارية فقط.", answer: true },
+    { text: "القانون التجاري فرع من فروع القانون الخاص.", answer: true },
+    { text: "القانون المدني هو الشريعة العامة للقانون التجاري.", answer: true },
+    { text: "من خصائص القانون التجاري الائتمان.", answer: true },
+    { text: "القانون التجاري يمتاز بالبطء.", answer: false },
+    { text: "من المصادر الرسمية أحكام القضاء.", answer: false },
+    { text: "اتفاق المتعاقدين من المصادر غير الرسمية.", answer: false },
+    { text: "من تطبيقات الأعمال بالتبعية الالتزامات التعاقدية.", answer: true },
+    { text: "إثراء التاجر دون سبب يعد عملاً تجارياً بالتبعية.", answer: true },
+    { text: "إذا كان العمل تجارياً للمدعي ومدنياً للمدعى عليه نطبق القانون المدني.", answer: true },
+    { text: "إذا كان تجارياً للمدعى عليه ومدنياً للمدعي نطبق القانون التجاري.", answer: true },
+    { text: "العمل المختلط يختلف عن التبعية.", answer: false },
+    { text: "ينظم أهلية المرأة المتزوجة قانون دولتها.", answer: true }
+  ];
+
+  const mcqQuestions = [
+    { text: "المعيار الذي نادى به الفقيه تالير للتفرقة بين العمل التجاري والمدني هو:", options: ["المضاربة", "المشروع", "التداول", "جميع ما سبق"], correct: 2 },
+    { text: "من الدفاتر الإلزامية دفتر:", options: ["المخزن", "اليومية", "التسويدة", "جميع ما سبق"], correct: 1 },
+    { text: "شراء المنقولات بقصد بيعها يُعد من الأعمال التجارية:", options: ["المنفردة", "المختلطة", "التبعية", "لا شيء"], correct: 0 },
+    { text: "مدة الاحتفاظ بالدفاتر التجارية:", options: ["3 سنوات", "5 سنوات", "6 سنوات", "10 سنوات"], correct: 3 },
+    { text: "من الدفاتر الإلزامية دفتر:", options: ["المخزن", "الجرد", "التسويدة", "الصندوق"], correct: 1 },
+    { text: "من الأركان الموضوعية العامة لعقد الشركة:", options: ["تقديم الحصص", "اقتسام الأرباح", "الرضا", "كل ما سبق"], correct: 2 },
+    { text: "تتقادم الدعاوى الناشئة عن الشركة بعد ...... من شهر التصفية:", options: ["3 سنوات", "سنة", "6 سنوات", "5 سنوات"], correct: 3 },
+    { text: "الشركة التي يكون غرضها ممارسة نشاط مهني هي شركة:", options: ["مدنية", "مساهمة", "أشخاص", "أموال"], correct: 0 },
+    { text: "شركة تجمع بين خصائص الأشخاص والأموال:", options: ["التضامن", "ذات المسؤولية المحدودة", "التوصية", "المساهمة"], correct: 1 },
+    { text: "إذا نشأت شركة بغرض الاتجار في المخدرات فالبطلان يرجع لعيب في:", options: ["الأهلية", "السبب", "المحل", "كل ما سبق"], correct: 2 },
+    { text: "اندماج الشركة في شركة أخرى يُعد من أسباب الانقضاء:", options: ["الخاصة", "العامة", "المختلطة"], correct: 1 },
+    { text: "المعيار الذي يعني تحقيق الربح من فرق الأسعار:", options: ["المضاربة", "المشروع", "التداول", "المقاولة"], correct: 0 },
+    { text: "تأسيس الشركات التجارية يُعد من الأعمال التجارية:", options: ["المنفردة", "المختلطة", "التبعية", "على وجه المقاولة"], correct: 0 }
+  ];
+
+  // -------------------- الأسئلة المقالية (23 سؤالاً مع الإجابات) --------------------
+  const essayQA = [
+    { q: "ما هي ماهية القانون التجاري ونطاق تطبيقه؟", a: "<strong>تعريف القانون التجاري:</strong> هو القانون الذي يتناول تنظيم الأعمال التجارية وتسري أحكامه على الأشخاص الذين يمتهنون القيام بهذه الأعمال وهم التجار.<br><strong>خصائصه:</strong> 1- قانون طائفي (يهتم بفئة التجار). 2- نوعي (لا ينظم سوى الأعمال التجارية).<br><strong>نطاق التطبيق (النظرية الموضوعية):</strong> تعتمد على 'العمل التجاري' كمعيار، بغض النظر عن صفة الشخص. <strong>نقدها:</strong> صعوبة حصر الأعمال التجارية." },
+    { q: "ما هي خصائص القانون التجاري؟", a: "1- <strong>السرعة:</strong> سرعة تداول الأموال لطبيعة السلع سريعة التلف. 2- <strong>الائتمان:</strong> كل العمليات التجارية تحتاج إلى الثقة والائتمان." },
+    { q: "اذكر المصادر الرسمية للقانون التجاري المصري.", a: "1- أحكام الاتفاق بين المتعاقدين (المصدر الأول). 2- التشريع (نصوص قانون التجارة). 3- العرف التجاري والعادات. 4- القانون المدني (الشريعة العامة)." },
+    { q: "ما هي معايير التفرقة بين العمل التجاري والعمل المدني مع النقد؟", a: "<strong>أ- المضاربة:</strong> تحقيق الربح من فرق الأسعار. النقد: المهن المدنية تهدف للربح أيضًا، وبعض الأعمال التجارية لا تهدف للربح.<br><strong>ب- التداول (تالير):</strong> حركة الثروات. النقد: توجد أعمال مدنية فيها تداول وأعمال تجارية بدون تداول.<br><strong>ج- المقاولة/المشروع:</strong> التكرار والاحتراف. النقد: بعض المشروعات تُدار كاقتصادية لكن تظل مدنية (مكاتب الأطباء)." },
+    { q: "اذكر الأعمال التجارية الأصلية المنفردة (المادة 4).", a: "1- شراء المنقولات بقصد بيعها أو تأجيرها. 2- استئجار المنقولات بقصد تأجيرها. 3- تأسيس الشركات التجارية. 4- شراء أو بيع أو تأجير السفن/الطائرات. 5- النقل البحري والجوي. 6- عمليات الشحن والتفريغ." },
+    { q: "ما هي الأعمال التجارية على وجه المقاولة (المادة 5)؟", a: "توريد البضائع، الصناعة، النقل البري، الوكالة التجارية، التأمين، عمليات البنوك، استيداع البضائع، أعمال النشر والإذاعة والصحافة، الاستغلال التجاري لبرامج الحاسب، العمليات الاستخراجية." },
+    { q: "شروط الأعمال التجارية بالتبعية والأعمال المختلطة.", a: "<strong>بالتبعية:</strong> 1- توفر صفة التاجر. 2- العمل متعلق بحاجات تجارته. <strong>المختلطة:</strong> عمل تجاري لأحد الطرفين ومدني للآخر." },
+    { q: "مفهوم احتراف الشخص الطبيعي وشروطه.", a: "الاحتراف: تكرار العمل التجاري بانتظام بهدف الارتزاق. الشروط: 1- أن يرد على أعمال تجارية أصلية. 2- تحقيق الربح. 3- أن يكون العمل مشروعاً." },
+    { q: "الأهلية التجارية (الرشيد، القاصر، المرأة المتزوجة).", a: "- الرشيد: من بلغ 21 سنة كاملة. - القاصر أقل من 18 سنة: لا يجوز مطلقاً. - القاصر من 18-21: يجوز بإذن المحكمة بشرط قانون جنسيته. - المرأة المتزوجة: ينظم أهليتها قانون دولتها." },
+    { q: "ما هو التزام شهر النظام المالي للزواج؟", a: "لم يخص القانون التجاري المسلمين لأن الشريعة تأخذ بانفصال الأموال. الأنظمة: اختلاط الأموال، الدوطة، انفصال الأموال." },
+    { q: "عرف الدفاتر التجارية وأهميتها وأنواعها.", a: "<strong>التعريف:</strong> سجلات يقيد فيها التاجر عملياته. <strong>الأهمية:</strong> معرفة المركز المالي، تقدير الضريبة، أسباب الإفلاس، الإثبات، الصلح الواقي من الإفلاس، تصفية الأعمال بعد الوفاة. <strong>الأنواع:</strong> إلزامية (اليومية، الجرد) واختيارية (الخزانة، المخزن، التسويدة)." },
+    { q: "السجل التجاري ووظائفه والملتزمون به.", a: "دفتر إداري لحصر التجار. له وظيفة إعلامية واقتصادية. الملتزمون: التجار الأفراد، الشركات التجارية، الأشخاص الاعتبارية." },
+    { q: "عرف الشركة والفرق بين الشركة المدنية والتجارية.", a: "عقد يساهم فيه شخصان بقصد اقتسام الربح. الفروق: 1- صفة التاجر (التجارية تكتسبها). 2- مسؤولية الشريك. 3- إجراءات الشهر." },
+    { q: "أنواع الشركات التجارية من حيث طبيعتها.", a: "1- أشخاص (اعتبار شخصي). 2- أموال (اعتبار مالي - كالمساهمة). 3- مختلطة (تجمع بينهما، مثل ذات المسؤولية المحدودة)." },
+    { q: "الأركان الموضوعية العامة والخاصة لعقد الشركة.", a: "<strong>العامة:</strong> الرضا، المحل، السبب، الأهلية. <strong>الخاصة:</strong> تعدد الشركاء، تقديم الحصص (نقدية، عينية، عمل)، نية المشاركة، اقتسام الأرباح والخسائر." },
+    { q: "ما هو شرط الأسد وأثره؟", a: "شرط استبعاد شريك من الأرباح أو إعفاؤه من الخسائر. الحكم: بطلان عقد الشركة (المادة 515 مدني). استثناء: إعفاء الشريك الذي لم يقدم غير عمله من الخسائر بشرط عدم تقرير أجر له." },
+    { q: "الأركان الشكلية لعقد الشركة.", a: "1- كتابة العقد (باستثناء شركة المحاصة). 2- الشهر (إعلام الغير، وتستثنى المحاصة)." },
+    { q: "متى تبدأ الشخصية المعنوية للشركة وتنتهي؟ آثارها.", a: "تبدأ بمجرد التكوين، لكن لا يحتج بها على الغير إلا بعد الشهر. تنتهي بالحل أو الانقضاء. الآثار: اسم، موطن، جنسية، ذمة مالية مستقلة، أهلية محددة بالغرض، تمثيل." },
+    { q: "أسباب انقضاء الشركة (العامة والخاصة).", a: "<strong>العامة:</strong> انقضاء المدة، تحقق الغرض، انتقال الحصص لشريك واحد، اتفاق الشركاء، الاندماج، حكم قضائي، الإفلاس، هلاك المال. <strong>الخاصة (لشركات الأشخاص):</strong> وفاة أحد الشركاء، الحجر أو الإفلاس، الانسحاب." },
+    { q: "ما المقصود بالتصفية؟ متى تنقضي الشركة دون تصفية؟", a: "مجموعة إجراءات لتسوية الحقوق بعد الانقضاء. تنقضي دون تصفية في حالات: الاندماج في شركة أخرى، التأميم." },
+    { q: "ما هي حالات بطلان عقد الشركة؟ (المطلوب إضافته)", a: "<strong>البطلان المطلق:</strong> انعدام الرضا أو الأهلية، عدم مشروعية المحل/السبب، تخلف الأركان الخاصة. <strong>البطلان النسبي:</strong> عيوب الرضا (الغلط، التدليس، الإكراه)، نقص الأهلية وقت التعاقد." },
+    { q: "ما المقصود بالقسمة في عقد الشركة؟", a: "هي المرحلة التي تلي التصفية، وتكون بتوزيع أموال الشركة المتبقية (الصافية) بين الشركاء كل حسب حصته في رأس المال." },
+    { q: "ما هو وضع انقضاء شركة المحاصة؟", a: "شركة مستترة ليس لها شخصية معنوية، ولا تخضع للشهر. تنقضي بنفس الأسباب العامة، لكن تصفيتها وقسمتها تتم بمرونة شديدة نظراً لطبيعتها المستترة." }
+  ];
+
+  // بناء أسئلة صح/خطأ مع تصحيح تلقائي
+  function buildTF() {
+    const container = document.getElementById('tf-questions-container');
+    container.innerHTML = '';
+    tfQuestions.forEach((q, idx) => {
+      const card = document.createElement('div');
+      card.className = 'question-card';
+      card.innerHTML = `
+        <div class="question-text">${idx+1}. ${q.text}</div>
+        <div class="truefalse-group options">
+          <label class="option"><input type="radio" name="tf_${idx}" value="true"> ✔️ صح</label>
+          <label class="option"><input type="radio" name="tf_${idx}" value="false"> ❌ خطأ</label>
+        </div>
+        <div class="feedback" id="tf_fb_${idx}"></div>
+      `;
+      container.appendChild(card);
+      const radios = card.querySelectorAll(`input[name="tf_${idx}"]`);
+      radios.forEach(radio => radio.addEventListener('change', (e) => evaluateSingleTF(idx, e.target.value)));
+    });
+    updateTFStats();
+  }
+
+  function evaluateSingleTF(idx, val) {
+    const fb = document.getElementById(`tf_fb_${idx}`);
+    const isCorrect = (val === 'true') === tfQuestions[idx].answer;
+    if (isCorrect) fb.innerHTML = `✅ صحيح (${tfQuestions[idx].answer ? 'صح' : 'خطأ'})`;
+    else fb.innerHTML = `❌ خطأ. الإجابة الصحيحة: ${tfQuestions[idx].answer ? 'صح ✓' : 'خطأ ✗'}`;
+    fb.className = `feedback ${isCorrect ? 'correct' : 'wrong'}`;
+    updateTFStats();
+  }
+  function updateTFStats() { /* اختصاراً نعرض عداد بسيط */ }
+  function resetTF() { /* ... */ }
+  function buildMCQ() {
+    const container = document.getElementById('mcq-questions-container');
+    container.innerHTML = '';
+    mcqQuestions.forEach((q, idx) => {
+      let optsHtml = q.options.map((opt, oidx) => `<label class="option"><input type="radio" name="mcq_${idx}" value="${oidx}"> ${opt}</label>`).join('');
+      const card = document.createElement('div');
+      card.className = 'question-card';
+      card.innerHTML = `<div class="question-text">${idx+1}. ${q.text}</div><div class="options">${optsHtml}</div><div class="feedback" id="mcq_fb_${idx}"></div>`;
+      container.appendChild(card);
+      card.querySelectorAll(`input[name="mcq_${idx}"]`).forEach(rad => rad.addEventListener('change', (e) => {
+        const sel = parseInt(e.target.value);
+        const fbDiv = document.getElementById(`mcq_fb_${idx}`);
+        const isCorrect = (sel === q.correct);
+        fbDiv.innerHTML = isCorrect ? `✅ صحيح (${q.options[q.correct]})` : `❌ خطأ. الإجابة الصحيحة: ${q.options[q.correct]}`;
+        fbDiv.className = `feedback ${isCorrect ? 'correct' : 'wrong'}`;
+      }));
+    });
+  }
+  function buildEssay() {
+    const container = document.getElementById('essay-questions-container');
+    container.innerHTML = '';
+    essayQA.forEach((item, idx) => {
+      const card = document.createElement('div');
+      card.className = 'essay-card';
+      card.innerHTML = `
+        <div class="question-text">📌 س${idx+1}: ${item.q}</div>
+        <div id="essay_answer_${idx}" style="display: none;" class="essay-answer">${item.a}</div>
+        <button class="toggle-btn" data-idx="${idx}">🔽 إظهار الإجابة النموذجية</button>
+      `;
+      container.appendChild(card);
+      const btn = card.querySelector('.toggle-btn');
+      btn.addEventListener('click', () => {
+        const ansDiv = document.getElementById(`essay_answer_${idx}`);
+        if (ansDiv.style.display === 'none') { ansDiv.style.display = 'block'; btn.innerHTML = '🔼 إخفاء الإجابة'; }
+        else { ansDiv.style.display = 'none'; btn.innerHTML = '🔽 إظهار الإجابة النموذجية'; }
+      });
+    });
+  }
+
+  // Tabs and reset
+  function initTabs() {
+    const btns = document.querySelectorAll('.tab-btn');
+    const panels = { tf: document.getElementById('tf-panel'), mcq: document.getElementById('mcq-panel'), essay: document.getElementById('essay-panel') };
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        Object.keys(panels).forEach(p => panels[p].classList.remove('active-panel'));
+        if (btn.dataset.tab === 'tf') panels.tf.classList.add('active-panel');
+        else if (btn.dataset.tab === 'mcq') panels.mcq.classList.add('active-panel');
+        else panels.essay.classList.add('active-panel');
+      });
+    });
+  }
+
+  buildTF(); buildMCQ(); buildEssay(); initTabs();
+  document.getElementById('resetTFBtn')?.addEventListener('click', () => location.reload());
+  document.getElementById('resetMCQBtn')?.addEventListener('click', () => location.reload());
+</script>
+</body>
+</html>
